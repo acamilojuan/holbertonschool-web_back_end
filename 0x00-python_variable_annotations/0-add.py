@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 """
-    function add with annotations
+    Basic annotations - add
 """
 
 
-def add(a: float, b: float) -> float:
-    """ float + float"""
-    return a + b
+def add(numb: float, numb2: float) -> float:
+    """ Function add between floats """
+    return numb + numb2
