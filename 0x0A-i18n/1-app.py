@@ -1,36 +1,30 @@
 #!/usr/bin/env python3
+""" 1. Basic Babel Setup
 """
-app module
-"""
-
 from flask import Flask, render_template
 from flask_babel import Babel
-import os
 
 app = Flask(__name__)
-
-
-class Config:
-    """
-    Configuration of available languages
-    """
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
-
-
-app.config.from_object(Config)
 babel = Babel(app)
 
 
-@app.route("/", methods=["GET"], strict_slashes=False)
-def home() -> str:
+class Config(object):
+    """ configure available languages
     """
-    Home page
-    """
+    LANGUAGES = ['en', 'fr']
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
 
-    return render_template("1-index.html")
+
+app.config.from_object(Config)
+
+
+@app.route('/')
+def hello():
+    """ Hello method.
+    """
+    return render_template('1-index.html')
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000)
+    app.run(host="0.0.0.0", port="5000")
