@@ -1,50 +1,37 @@
 #!/usr/bin/env python3
+""" Basic Flask app
 """
-app module
-"""
-
-from flask import Flask, render_template, request, flash
-from flask_babel import Babel, _
-from typing import Optional
-import gettext
-import os
+from flask import Flask, render_template, request
+from flask_babel import Babel
 
 app = Flask(__name__)
 babel = Babel(app)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "CASA123")
 
 
-class Config:
-    """
-    Configuration of Bavel
-    """
+class Config():
+    ''' babel config class '''
     LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
 app.config.from_object(Config)
+Babel.default_locale = 'en'
+Babel.default_timezone = 'UTC'
 
 
 @babel.localeselector
-def get_locale() -> Optional[str]:
-    """
-    Return best match from accepted languages
-    """
-    if request.args.get("locale") in app.config['LANGUAGES']:
-        return request.args.get("locale")
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+def get_locale():
+    ''' get locale from request '''
+    locale = request.args.get("locale")
+    if locale:
+        return locale
+    return request.accept_languages.best_match(Config.LANGUAGES)
 
 
-@app.route("/", methods=["GET"], strict_slashes=False)
-def home() -> str:
-    """
-    Home page
-    """
-    flash(_('home_title'))
-    flash(_('home_header'))
-    return render_template("4-index.html")
+@app.route("/", methods=["GET"])
+def index():
+    """ Returns index """
+    return render_template("3-index.html")
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000)
+    app.run(host="0.0.0.0", port="5000")
